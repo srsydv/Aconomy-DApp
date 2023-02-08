@@ -74,7 +74,7 @@ let createPoolss = async () => {
     .once("receipt", (reciept) => {
       console.log("Pool Created ✅",reciept);
       let data = JSON.stringify(reciept.events.poolCreated.returnValues.poolAddress);
-      document.getElementById('PA').innerHTML = "Pool Address:"+data;
+      document.getElementById('PA').innerHTML = "Pool Address:"+data+" "+"Pool ID: "+ reciept.events.poolCreated.returnValues.poolId;
     });
 }
 const poolOwner = document.getElementById("poolOwner");
