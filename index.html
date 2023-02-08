@@ -14,17 +14,7 @@
       
     -------------------------------------------------------------------------------------
     <div>
-      <!-- pool="0xFfD4F2cb34529f9c90B993cAe5E27201c1E5FeCC";
-      wlt=0xF7D3bdf086d66E548c945CA410BB80Fc00E49831
-      srs = 0x6E22A7d1773879D3f045706e538ffab573762D7c -->
       <h1>Pool Contract</h1>
-    
-      <input
-              type="text"
-              id="pool"
-              required
-              placeholder="pool Address"
-            />
 
 
       <div id="poolAddress">
@@ -63,6 +53,7 @@
         
     
           <button id="createPool">createYourPool</button>
+          <br>
           <span id="PA"></span>
       </div>
 
@@ -145,7 +136,7 @@
       type="text"
       id="loanId"
       required
-      placeholder="Pool ID"
+      placeholder="Loan ID"
     />
       
     <input
@@ -187,183 +178,173 @@
 
 ---------------------------------------------------------------------------------
 
-      <!-- <div>
-        <div id="Approve">
-            <h4>Approve For PoolAddress</h4>
-            
-            <input
-            type="text"
-            id="_poolAddress"
-            required
-            placeholder="Pool Address"
-          />
-            <input
-            type="text"
-            id="_erc20token"
-            required
-            placeholder="ERC20 Address"
-          />
-          <input
-            type="text"
-            id="_tokenamount1"
-            required
-            placeholder="Enter Amount"
-          />
+<div id="SupplyLoanLender">
+  <h4>Supply to Pool (Lender)</h4>
+  
+  <input
+    type="text"
+    id="dPoolAddress1"
+    required
+    placeholder="Pool Address"
+  />
+
+  <input
+  type="text"
+  id="poolId3"
+  required
+  placeholder="Pool ID"
+/>
+  
+<input
+  type="number"
+  id="amount2"
+  required
+  placeholder="Enter Amount"
+/>
+
+<input
+  type="number"
+  id="maxLoanDuration"
+  required
+  placeholder="Enter Loan Duration"
+/>
+
+<input
+  type="number"
+  id="apr2"
+  required
+  placeholder="Enter APR%"
+/>
+
+
+
+  <button id="supplyPoolBtn">Bid</button>
+<span id="_bid"></span>
+</div>
+
+---------------------------------------------------------------------------------
+
+<div id="AcceptBidPoolOwner">
+  <h4>Accept Bid Pool (Pool Owner)</h4>
+  
+  <input
+    type="text"
+    id="dPoolAddress2"
+    required
+    placeholder="Pool Address"
+  />
+
+  <input
+  type="text"
+  id="poolId4"
+  required
+  placeholder="Pool ID"
+/>
+  
+<input
+  type="text"
+  id="bidId"
+  required
+  placeholder="Bid ID"
+/>
+
+<input
+  type="text"
+  id="lender"
+  required
+  placeholder="Lender Address"
+/>
+
+<input
+  type="text"
+  id="receiver"
+  required
+  placeholder="Receiver Address"
+/>
+
+
+
+  <button id="acceptSupplyBidBtn">Accept Bid</button>
+  <span id="_123"></span>
+</div>
+
+---------------------------------------------------------------------------------
       
-            <button id="_btnApprove">Approve</button>
-            <span id="_123"></span>
-        </div>
+<div id="RepayBid">
+  <h4>Repay Bid Loan(Pool Owner)</h4>
+  
+  <input
+  type="text"
+  id="dPoolAddress3"
+  required
+  placeholder="Pool Address"
+/>
 
-        <div>
-          <div id="add Fund">
-              <h4>Add Fund</h4>
-              
-              <input
-              type="text"
-              id="_erc20Address"
-              required
-              placeholder="ERC20 Address"
-            />
-            <input
-              type="text"
-              id="_value"
-              required
-              placeholder="Enter Amount"
-            />
-        
-              <button id="_addFund">Add Fund</button>
-              <span id="_process2"> </span>
-          </div>
+<input
+  type="text"
+  id="poolId5"
+  required
+  placeholder="Pool ID"
+/>
+  
+<input
+  type="text"
+  id="bidId2"
+  required
+  placeholder="Bid ID"
+/>
+
+<input
+  type="text"
+  id="lender2"
+  required
+  placeholder="Lender Address"
+/>
 
 
-        ------------------------------------------------------------------------------------
-        <div>
-          <div id="add Fund">
-              <h4>view Repay Amount With Installement</h4>
-              
-              <input
-              type="text"
-              id="_erc20Address1"
-              required
-              placeholder="ERC20 Address"
-            />
-            <input
-              type="text"
-              id="_repayInstallment"
-              required
-              placeholder="Repay Installment"
-            />
-        
-              <button id="_viewRepayAmountWithInstallement">view Repay Amount With Installement</button>
-              
-              <span id="_process4"> </span>
-          </div>
-          ------------------------------------------------------------------------------------
-        <div>
-          <div id="add Fund">
-              <h4>Investor Balance Details</h4>
-              <input
-              type="text"
-              id="wltaddress"
-              required
-              placeholder="Metamask Address"
-            />
-        
-              <input
-              type="text"
-              id="_erc20Address2"
-              required
-              placeholder="ERC20 Address"
-            />
-            
-              <button id="investorBalanceDetails">investor Balance Details</button>
-              
-              <span id="_process3"> </span>
-          </div>
+  <button id="repayBidBtn">Repay</button>
+  <span id="_123"></span>
+</div>
 
-          ------------------------------------------------------------------------------------
-          <div>
-            <div id="add Fund">
-                <h4>Pay Installement By Borrower</h4>
-                
-                <input
-                type="text"
-                id="_erc20Address3"
-                required
-                placeholder="ERC20 Address"
-              />
-              <input
-                type="text"
-                id="_repayInstallment2"
-                required
-                placeholder="Repay Installment"
-              />
-          
-                <button id="payInstallment">Pay Installement</button>
-                
-                <span id="_process5"> </span>
-            </div>
+---------------------------------------------------------------------------------
 
-            ------------------------------------------------------------------------------------
-            <div>
-              <div id="add Fund">
-                  <h4>Withdraw Fund By Borrower</h4>
-                  
-                  <input
-                  type="text"
-                  id="_erc20Address4"
-                  required
-                  placeholder="ERC20 Address"
-                />
-                <input
-                  type="text"
-                  id="amount11"
-                  required
-                  placeholder="Amount"
-                />
-            
-                  <button id="withdrawFund">Withdraw Fund</button>
-                  
-                  <span id="_process6"> </span>
-              </div>
-              ------------------------------------------------------------------------------------
-            <div>
-              <div id="add Fund">
-                  <h4>Pool Balance</h4>
-                  
-                  <input
-                  type="text"
-                  id="_erc20Address5"
-                  required
-                  placeholder="ERC20 Address"
-                />
-            
-                  <button id="getSmartContractBalance">Pool Balance</button>
-                  
-                  <span id="_process7"> </span>
-              </div>
+<div id="WithdrawBid">
+  <h4>Withdraw Bid(Lender)</h4>
+  
+  <input
+  type="text"
+  id="dPoolAddress4"
+  required
+  placeholder="Pool Address"
+/>
 
-              ------------------------------------------------------------------------------------
-              <div>
-                <div id="add Fund">
-                    <h4>withdraw Installement By Investor</h4>
-                    
-                    <input
-                    type="text"
-                    id="_erc20Address6"
-                    required
-                    placeholder="ERC20 Address"
-                  />
-                  <input
-                    type="text"
-                    id="_repayInstallment3"
-                    required
-                    placeholder="Repay Installment"
-                  />
-              
-                    <button id="withdraw">withdraw Installement</button>
-                    
-                    <span id="_process8"> </span>
-                </div> -->
+<input
+  type="text"
+  id="poolId6"
+  required
+  placeholder="Pool ID"
+/>
+  
+<input
+  type="text"
+  id="bidId3"
+  required
+  placeholder="Bid ID"
+/>
+
+<input
+  type="text"
+  id="lender3"
+  required
+  placeholder="Lender Address"
+/>
+
+
+  <button id="withdrawBtn">Withdraw</button>
+  <span id="_123"></span>
+</div>
+
+---------------------------------------------------------------------------------
+           
   </body>
 </html>
