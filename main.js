@@ -14,9 +14,9 @@ const poolContractAddress = document.getElementById("pool");
 // const poolAddressAbi = require('./poolAddressAbi.json')
 // const ERC20Address = document.getElementById("ERC20Address");
 
-const poolRegistryAdd = "0x837bD61CE00E657Ed53a998b5E3e77A5a3bb608a"
-const poolAddress = '0x796555293F780F34125F0D8a0e4dcB50418AF9Bf'
-const erc20Address = '0x66b7768CAd0bf95372Fd8a474E916df0179538F6'
+const poolRegistryAdd = "0xC9ffB7A773bfa3F8384F8E971603B25B9fE86438"
+const poolAddress = '0x3aa56659b286ed4b4646e7C0cE9068Cb10938fb9'
+const erc20Address = '0x8A09AF6795f048A7973fcB1AA03e3C999CF6201b'
 
 const poolRegistryAbi = require('./poolRegistry.json')
 const poolAddressAbi = require('./poolAddressAbi.json')
@@ -56,6 +56,7 @@ init = async () => {
   poolRegistry = new web3.eth.Contract(poolRegistryAbi.abi, poolRegistryAdd)
 
   poolAddressInstance =  new web3.eth.Contract(poolAddressAbi.abi, poolAddress)
+
 
   accounts = await web3.eth.getAccounts();
   console.log("Account", accounts[0]);
@@ -134,7 +135,7 @@ const LoanRequestFunc = async () => {
   .loanRequest( 
     erc20Address,
     poolId2.value,
-    loanAmount.value,
+    web3.utils.toWei(loanAmount.value),
     loanDefaultDuration2.value,
     Apr.value*100,
     loanReceiverAddress.value
@@ -144,8 +145,8 @@ const LoanRequestFunc = async () => {
   })
   .once("receipt", (reciept) => {
     console.log("Request Loan Successful ✅",reciept);
-    console.log(reciept.logs[0].args.loanId.toNumber())
-    
+    console.log(reciept.events.SubmittedLoan.returnValues.loanId)
+    document.getElementById('loanIdSpan').innerHTML = 'Loan ID: '+reciept.events.SubmittedLoan.returnValues.loanId
   });    
 
 }
@@ -162,13 +163,14 @@ loanRequestBtn.onclick = LoanRequestFunc;
 //AcceptLoan for lender
 
 const AcceptLoanFunc = async () => {
-  contractERC20 = new web3.eth.Contract(
-        ERC20ABI,
+ let contractERC20 = new web3.eth.Contract(
+        ERC20ABI.abi,
         erc20Address
       );
+
       
       await contractERC20.methods
-        .approve(poolAddress, loanAmount2.value)
+        .approve(poolAddress, web3.utils.toWei(loanAmount2.value))
         .send({ from: accounts[0] });
       console.log("approved");
 
@@ -194,12 +196,12 @@ acceptLoanAmount.onclick = AcceptLoanFunc
 
 const RepayLoanFunc = async () => {
   contractERC20 = new web3.eth.Contract(
-        ERC20ABI,
+        ERC20ABI.abi,
         erc20Address
       );
       
       await contractERC20.methods
-        .approve(poolAddress, amount3.value)
+        .approve(poolAddress, web3.utils.toWei(amount3.value))
         .send({ from: accounts[0] });
       console.log("approved");
 
@@ -222,12 +224,44 @@ const loanId2 = document.getElementById('loanId2')
 const repayLoanBtn = document.getElementById('repayLoanBtn');
 repayLoanBtn.onclick = RepayLoanFunc;
 
+//Repay Full Loan
+
+const RepayLoanFullFunc = async () => {
+  contractERC20 = new web3.eth.Contract(
+        ERC20ABI.abi,
+        erc20Address
+      );
+      
+      await contractERC20.methods
+        .approve(poolAddress, web3.utils.toWei(amountrlf.value))
+        .send({ from: accounts[0] });
+      console.log("approved");
+
+  await poolAddressInstance.methods
+  .repayFullLoan( 
+    loanId3.value
+    )
+  .send({
+    from: accounts[0]
+  })
+  .once("receipt", (reciept) => {
+    console.log("Accept Loan Successful ✅",reciept);
+  });    
+
+}
+
+const amountrlf = document.getElementById('amountrlf')
+const loanId3 = document.getElementById('loanId3')
+
+const repayFullLoanBtn = document.getElementById('repayFullLoanBtn');
+repayFullLoanBtn.onclick = RepayLoanFullFunc;
+
 //Supply To Pool
 
 const SupplyPoolFunc = async () => {
 
   contractERC20 = new web3.eth.Contract(
-    ERC20ABI,
+    ERC20ABI.abi,
     erc20Address
   );
 
@@ -237,7 +271,7 @@ const SupplyPoolFunc = async () => {
   );
   
   await contractERC20.methods
-    .approve(dPoolAddress1.value, amount2.value)
+    .approve(dPoolAddress1.value, web3.utils.toWei(amount2.value))
     .send({ from: accounts[0] });
   console.log("approved");
 
@@ -247,7 +281,7 @@ const SupplyPoolFunc = async () => {
   .supplyToPool( 
     poolId3.value,
     erc20Address,
-    amount2.value,
+    web3.utils.toWei(amount2.value),
     maxLoanDuration.value,
     apr2.value,
     2222222222222
@@ -329,12 +363,12 @@ acceptSupplyBidBtn.onclick = AcceptLoanBidFunc;
 const RepayBidInstallmentFunc = async () => {
 
   contractERC20 = new web3.eth.Contract(
-    ERC20ABI,
+    ERC20ABI.abi,
     erc20Address
   );
   
   await contractERC20.methods
-    .approve(dPoolAddress3.value, amount2.value)
+    .approve(dPoolAddress3.value, web3.utils.toWei(riblAmount.value))
     .send({ from: accounts[0] });
   console.log("approved");
 
@@ -367,24 +401,36 @@ const dPoolAddress3 = document.getElementById('dPoolAddress3')
 const poolId5 = document.getElementById('poolId5')
 const bidId2 = document.getElementById('bidId2');
 const lender2 = document.getElementById('lender2');
+const riblAmount = document.getElementById('riblAmount')
 
 const repayBidBtn = document.getElementById('repayBidBtn')
 repayBidBtn.onclick = RepayBidInstallmentFunc
 
-//Withdraw Bid
 
-const WithdrawBidFunc = async () => {
+//Repay Full Bid Loan
+
+const RepayBidFullFunc = async () => {
+
+  contractERC20 = new web3.eth.Contract(
+    ERC20ABI.abi,
+    erc20Address
+  );
+  
+  await contractERC20.methods
+    .approve(dPoolAddress4.value, web3.utils.toWei(rfablAmount.value))
+    .send({ from: accounts[0] });
+  console.log("approved");
 
 
   let deployPoolInstance = new web3.eth.Contract(
     deployPool.abi,
-    dPoolAddress1.value,
+    dPoolAddress4.value,
   );
 
   
 
   await deployPoolInstance.methods
-  .Withdraw( 
+  .RepayFullAmount( 
     poolId6.value,
     erc20Address,
     bidId3.value,
@@ -400,12 +446,157 @@ const WithdrawBidFunc = async () => {
 
 }
 
+const dPoolAddress4 = document.getElementById('dPoolAddress4')
 const poolId6 = document.getElementById('poolId6')
 const bidId3 = document.getElementById('bidId3');
 const lender3 = document.getElementById('lender3');
+const rfablAmount = document.getElementById('rfablAmount')
+
+const repayBidFullBtn = document.getElementById('repayBidFullBtn')
+repayBidFullBtn.onclick = RepayBidFullFunc
+
+
+//Withdraw Bid
+
+const WithdrawBidFunc = async () => {
+
+
+  let deployPoolInstance = new web3.eth.Contract(
+    deployPool.abi,
+    dPoolAddress5.value,
+  );
+
+  
+
+  await deployPoolInstance.methods
+  .Withdraw( 
+    poolId7.value,
+    erc20Address,
+    bidId4.value,
+    lender4.value
+    )
+  .send({
+    from: accounts[0]
+  })
+  .once("receipt", (reciept) => {
+    console.log("Request Loan Successful ✅",reciept);
+    
+  });    
+
+}
+const dPoolAddress5 = document.getElementById('dPoolAddress5')
+const poolId7 = document.getElementById('poolId7')
+const bidId4 = document.getElementById('bidId4');
+const lender4 = document.getElementById('lender4');
 
 const withdrawBtn = document.getElementById('withdrawBtn')
 withdrawBtn.onclick = WithdrawBidFunc
 
+
+//Mint Lending Tokens
+
+
+const MintTokenFunc = async() => {
+  let contractERC20 = new web3.eth.Contract(
+    ERC20ABI.abi,
+    erc20Address
+  );
+  
+  await contractERC20.methods
+    .mint(recepAddress.value, web3.utils.toWei(mintAmount.value))
+    .send({ from: accounts[0] })
+    .once("receipt", (reciept) => {
+      console.log(reciept);
+      if(reciept.status){
+        mintSpan.innerHTML = '✅ Transferred: '+mintAmount.value+' to: '+recepAddress.value;
+      }else {
+        console.log('transfer Unsuccesful')
+      }
+      
+    })
+
+}
+
+const recepAddress = document.getElementById('recepAddress');
+const mintAmount = document.getElementById('mintAmount')
+
+const mintTokenBtn = document.getElementById('mintTokenBtn')
+const mintSpan = document.getElementById('mintSpan')
+
+mintTokenBtn.onclick = MintTokenFunc;
+
+
+//Check Loan Amount
+
+const CheckLoanFunc = async () => {
+
+  let res = await poolAddressInstance.methods
+  .loans(
+    cLoanId.value
+    ).call()
+  
+console.log(web3.utils.fromWei(res.loanDetails.principal))
+console.log(web3.utils.fromWei(res.terms.paymentCycleAmount))
+document.getElementById('checkLoanSpan').innerHTML = 'Principal Amount: '+web3.utils.fromWei(res.loanDetails.principal)
+}
+
+const cLoanId = document.getElementById('cLoanId')
+
+const checkLoanBtn  = document.getElementById('checkLoanBtn')
+
+checkLoanBtn.onclick = CheckLoanFunc
+
+//Check Payment Cycle Amount
+
+const CheckPcaFunc = async () => {
+
+  let res = await poolAddressInstance.methods
+  .loans(
+    pcaLoanId.value
+    ).call()
+  
+// console.log(web3.utils.fromWei(res.loanDetails.principal))
+// console.log(web3.utils.fromWei(res.terms.paymentCycleAmount))
+document.getElementById('checkPcaSpan').innerHTML = 'Payment Cycle Amount: '+web3.utils.fromWei(res.terms.paymentCycleAmount)
+}
+
+const pcaLoanId = document.getElementById('pcaLoanId')
+
+const checkPcaBtn  = document.getElementById('checkPcaBtn')
+
+checkPcaBtn.onclick = CheckPcaFunc
+
+//Check DPool amount to pay by the pool owner
+
+const CheckViapFunc = async () => {
+
+  let deployPoolInstance = new web3.eth.Contract(
+    deployPool.abi,
+    viapDPool.value,
+  );
+
+  
+
+  let res = await deployPoolInstance.methods
+  .viewFullRepayAmount( 
+    viapPoolId.value,
+    erc20Address,
+    viapBidId.value,
+    viaplender.value
+    ).call()   
+  
+// console.log(web3.utils.fromWei(res.loanDetails.principal))
+// console.log(web3.utils.fromWei(res.terms.paymentCycleAmount))
+document.getElementById('checkViapSpan').innerHTML = ' Amount to Pay: '+web3.utils.fromWei(res)
+}
+
+const viapPoolId = document.getElementById('viapPoolId')
+const viapBidId = document.getElementById('viapBidId')
+const viaperc20 = document.getElementById('viaperc20')
+const viaplender = document.getElementById('viaplender')
+const viapDPool = document.getElementById('viapDPool')
+const checkViapBtn  = document.getElementById('checkViapBtn')
+
+checkViapBtn.onclick = CheckViapFunc
 
 init();
