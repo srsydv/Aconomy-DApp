@@ -14,9 +14,9 @@ const poolContractAddress = document.getElementById("pool");
 // const poolAddressAbi = require('./poolAddressAbi.json')
 // const ERC20Address = document.getElementById("ERC20Address");
 
-const poolRegistryAdd = "0xC9ffB7A773bfa3F8384F8E971603B25B9fE86438"
-const poolAddress = '0x3aa56659b286ed4b4646e7C0cE9068Cb10938fb9'
-const erc20Address = '0x8A09AF6795f048A7973fcB1AA03e3C999CF6201b'
+const poolRegistryAdd = "0xc06203c128f5b085b640D87f72391888039B0EA6"
+const poolAddress = '0x519774D182dF53D783017130Be1de57d8DDE0C12'
+const erc20Address = '0x055321F4Ae9699578EE382072212956172A9C435'
 
 const poolRegistryAbi = require('./poolRegistry.json')
 const poolAddressAbi = require('./poolAddressAbi.json')
@@ -531,13 +531,13 @@ mintTokenBtn.onclick = MintTokenFunc;
 const CheckLoanFunc = async () => {
 
   let res = await poolAddressInstance.methods
-  .loans(
+  .viewFullRepayAmount(
     cLoanId.value
     ).call()
   
-console.log(web3.utils.fromWei(res.loanDetails.principal))
-console.log(web3.utils.fromWei(res.terms.paymentCycleAmount))
-document.getElementById('checkLoanSpan').innerHTML = 'Principal Amount: '+web3.utils.fromWei(res.loanDetails.principal)
+console.log(web3.utils.fromWei(res))
+// console.log(web3.utils.fromWei(res.terms.paymentCycleAmount))
+document.getElementById('checkLoanSpan').innerHTML = 'Total Repay Amount: '+web3.utils.fromWei(res)
 }
 
 const cLoanId = document.getElementById('cLoanId')
