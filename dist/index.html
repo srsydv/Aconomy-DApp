@@ -62,12 +62,23 @@
      
  
        <button id="loanRequestBtn">Request Loan</button>
-       <span id="PA"></span>
+       <span id="loanIdSpan"></span>
    </div>
 
 
     ---------------------------------------------------------------------------------
 
+    <div id="CheckLoan Amount">
+      <h4>Check Loan Amount</h4>
+      
+      <input type="text" id="cLoanId" required="" placeholder="Loan ID">
+
+
+      <button id="checkLoanBtn">Check</button>
+      <span id="checkLoanSpan"></span>
+  </div>
+
+  ---------------------------------------------------------------------------------
 
     <div id="AcceptLoanLender">
       <h4>Accept Loan(Lender)</h4>
@@ -83,6 +94,18 @@
 
   ---------------------------------------------------------------------------------
 
+  <div id="Checkpca Amount">
+    <h4>Check Payment Amount per Cycle</h4>
+    
+    <input type="text" id="pcaLoanId" required="" placeholder="Loan ID">
+
+
+    <button id="checkPcaBtn">Check</button>
+    <span id="checkPcaSpan"></span>
+</div>
+
+---------------------------------------------------------------------------------
+
 
   <div id="RepayLoan">
     <h4>Repay Loan(Borrower)</h4>
@@ -94,6 +117,20 @@
 
     <button id="repayLoanBtn">Repay Loan</button>
     <span id="_123"></span>
+</div>
+
+---------------------------------------------------------------------------------
+
+<div id="RepayLoanFull">
+  <h4>Repay Loan Full(Borrower)</h4>
+  
+<input type="text" id="loanId3" required="" placeholder="Loan ID">
+  
+<input type="number" id="amountrlf" required="" placeholder="Enter Amount">
+
+
+  <button id="repayFullLoanBtn">Repay Loan</button>
+  <span id="_123"></span>
 </div>
 
 ---------------------------------------------------------------------------------
@@ -139,15 +176,31 @@
 </div>
 
 ---------------------------------------------------------------------------------
+
+<div id="view Installment Amount pool">
+  <h4>Check Amount to pay(pool Owner)</h4>
+  
+  <input type="text" id="viapDPool" required="" placeholder="Pool Address">
+  <input type="text" id="viapPoolId" required="" placeholder="Pool ID">
+<input type="text" id="viapBidId" required="" placeholder="Bid ID">
+<input type="text" id="viaplender" required="" placeholder="lender Address">
+
+  <button id="checkViapBtn">Check</button>
+  <span id="checkViapSpan"></span>
+</div>
+
+---------------------------------------------------------------------------------
       
 <div id="RepayBid">
-  <h4>Repay Bid Loan(Pool Owner)</h4>
+  <h4>Repay Installment Bid Loan(Pool Owner)</h4>
   
   <input type="text" id="dPoolAddress3" required="" placeholder="Pool Address">
 
 <input type="text" id="poolId5" required="" placeholder="Pool ID">
   
 <input type="text" id="bidId2" required="" placeholder="Bid ID">
+
+<input type="number" id="riblAmount" required="" placeholder="Enter Amount">
 
 <input type="text" id="lender2" required="" placeholder="Lender Address">
 
@@ -158,8 +211,8 @@
 
 ---------------------------------------------------------------------------------
 
-<div id="WithdrawBid">
-  <h4>Withdraw Bid(Lender)</h4>
+<div id="RepayBidFull">
+  <h4>Repay Full Amount Bid Loan(Pool Owner)</h4>
   
   <input type="text" id="dPoolAddress4" required="" placeholder="Pool Address">
 
@@ -167,7 +220,27 @@
   
 <input type="text" id="bidId3" required="" placeholder="Bid ID">
 
+<input type="number" id="rfablAmount" required="" placeholder="Enter Amount">
+
 <input type="text" id="lender3" required="" placeholder="Lender Address">
+
+
+  <button id="repayBidFullBtn">Repay</button>
+  <span id="_123"></span>
+</div>
+
+---------------------------------------------------------------------------------
+
+<div id="WithdrawBid">
+  <h4>Withdraw Bid(Lender)</h4>
+  
+  <input type="text" id="dPoolAddress5" required="" placeholder="Pool Address">
+
+<input type="text" id="poolId7" required="" placeholder="Pool ID">
+  
+<input type="text" id="bidId4" required="" placeholder="Bid ID">
+
+<input type="text" id="lender4" required="" placeholder="Lender Address">
 
 
   <button id="withdrawBtn">Withdraw</button>
@@ -175,6 +248,20 @@
 </div>
 
 ---------------------------------------------------------------------------------
-           
+
+<div id="mintToken">
+  <h4>Get Lending Token</h4>
+  
+<input type="text" id="recepAddress" required="" placeholder="Enter Address">
+  
+<input type="number" id="mintAmount" required="" placeholder="Enter Amount">
+
+
+  <button id="mintTokenBtn">Get</button>
+  <span id="mintSpan"></span>
+</div>
+
+---------------------------------------------------------------------------------
+
   </div></body>
 </html>
